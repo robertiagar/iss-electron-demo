@@ -2,11 +2,11 @@
   "name": "jekyll-electron",
   "version": "0.0.1",
   "description": "A jekyll blog editor built in Electron",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "electron main.js"
+    "start": "electron src/main.js"
   },
   "keywords": [],
   "author": "Robert Iagar",
