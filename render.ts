@@ -1,4 +1,3 @@
-/// <reference path="typings/index.d.ts" />
 import electron = require('electron');
 import paths = require('./modules/paths/paths')
 const {ipcRenderer} = electron;

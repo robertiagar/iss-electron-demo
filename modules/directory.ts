@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
 import * as path from 'path'
 import {Paths} from './paths'
 

@@ -1,5 +1,3 @@
-/// <reference path="typings/index.d.ts" />
-
 import {app, BrowserWindow, dialog, ipcMain, Menu} from "electron";
 import {JekyllDirectory} from "./modules/directory";
 
@@ -13,7 +11,7 @@ let getDirectories = root => {
 app.on('ready', _ => {
     window = new BrowserWindow({
         width: 1280,
-        height: 720,
+        height: 720
     });
 
     let template = [
@@ -31,8 +29,6 @@ app.on('ready', _ => {
                         if (filenames && filenames[0]) {
                             let dirs = getDirectories(filenames[0]);
                             window.webContents.send('got-dirs', dirs);
-                            console.log(dirs.pagesPath);
-                            console.log(dirs.postsPath);
                         }
                     }
                 },
