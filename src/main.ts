@@ -1,11 +1,10 @@
-import {app, BrowserWindow, dialog, ipcMain, Menu} from "electron";
-import {JekyllDirectory} from "./modules/directory";
+import { app, BrowserWindow, dialog, ipcMain, Menu } from "electron";
+import { Site } from "./modules/jekyll";
 
 let window: Electron.BrowserWindow;
 
-let getDirectories = root => {
-    let directory = new JekyllDirectory(root)
-    return directory.loadDirectories();
+let getSite = root => {
+    return new Site(root);
 };
 
 app.on('ready', _ => {
@@ -20,14 +19,14 @@ app.on('ready', _ => {
             submenu: [
                 {
                     label: "Open",
-                    accelerator: "Ctrl+O",                    
+                    accelerator: "Ctrl+O",
                     click: () => {
                         console.log("clicked open");
                         let filenames = dialog.showOpenDialog({
                             properties: ['openDirectory']
                         });
                         if (filenames && filenames[0]) {
-                            let dirs = getDirectories(filenames[0]);
+                            let dirs = getSite(filenames[0]);
                             window.webContents.send('got-dirs', dirs);
                         }
                     }
