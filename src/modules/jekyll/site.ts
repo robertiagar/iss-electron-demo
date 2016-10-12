@@ -4,9 +4,24 @@ import * as path from 'path';
 
 const _posts: string = "_posts";
 
-export class Collection {
-    name: string
-    description: string
+export class Post {
+    title: string
+    date: Date
+    path: string
+    constructor(path: string, date: Date, title: string) {
+        this.title = title;
+        this.date = date;
+        this.path = path;
+    }
+}
+
+export class Page {
+    title: string
+    path: string
+    constructor(title: string, path: string) {
+        this.title = title;
+        this.path = path;
+    }
 }
 
 export class Config {
@@ -15,14 +30,13 @@ export class Config {
     email: string
     name: string
     author: string
-    collection: Collection[]
 }
 
 export class Site {
     rootDir: string
     config: Config
-    posts: string[]
-    pages: string[]
+    posts: Post[]
+    pages: Page[]
 
     constructor(rootDir: string) {
         this.rootDir = rootDir;
@@ -47,25 +61,30 @@ export class Site {
         return config;
     }
 
-    private loadPages(): string[] {
-        let pages = new Array<string>();
+    private loadPages(): Page[] {
+        let pages = new Array<Page>();
         let files = fs.readdirSync(this.rootDir);
-        files.forEach((value, index) => {
+        files.forEach(value => {
             if (value.toLowerCase() !== "readme.md" && (value.endsWith(".md") || value.endsWith(".markdown"))) {
                 let ph = path.join(this.rootDir, value);
-                pages.push(ph);
+                pages.push(new Page(value.replace(".md", "").replace(".markdown", ""), ph));
             }
         });
+        
         return pages;
     }
 
-    private loadPosts(): string[] {
-        let posts = new Array<string>();
+    private loadPosts(): Post[] {
         let files = fs.readdirSync(path.join(this.rootDir, _posts));
-        files.forEach(value => {
+        return files.reverse().map(value => {
             let ph = path.join(this.rootDir, _posts, value);
-            posts.push(ph);
-        })
-        return posts;
+            let fileContent = fs.readFileSync(ph, 'utf8');
+            let startPos = fileContent.indexOf("---") + 3;
+            let endPos = fileContent.indexOf("---", startPos);
+            let yaml = fileContent.substring(startPos, endPos);
+            let yml = YAML.parse(yaml);
+            let date = yml.date != undefined ? new Date(yml.date) : new Date(value.substr(0, 10));
+            return new Post(ph, date, yml.title);
+        });
     }
 }

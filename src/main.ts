@@ -21,7 +21,6 @@ app.on('ready', _ => {
                     label: "Open",
                     accelerator: "Ctrl+O",
                     click: () => {
-                        console.log("clicked open");
                         let filenames = dialog.showOpenDialog({
                             properties: ['openDirectory']
                         });
