@@ -1,11 +1,13 @@
 <html>
     <head>
         <title>Electron Jekyll</title>
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css"/>
     </head>
     <body>
         It works!!
         <div id="dirs"></div>
         <script>
+            window.$ = window.jquery = require('jquery');
             require('./render.js');
         </script>
     </body>

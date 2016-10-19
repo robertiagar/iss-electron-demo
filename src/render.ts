@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { Site } from './modules/jekyll';
+import * as $ from 'jquery';
 
 ipcRenderer.on('got-dirs', (event, args: Site) => {
     let pages: string;

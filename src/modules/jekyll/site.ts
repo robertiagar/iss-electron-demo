@@ -4,18 +4,19 @@ import * as path from 'path';
 
 const _posts: string = "_posts";
 
-export class Collection {
-    name: string
-    description: string
-}
-
 export class Config {
     title: string
     description: string
     email: string
     name: string
     author: string
-    collection: Collection[]
+    constructor(title: string, description: string, email: string, name: string, author: string) {
+        this.title = title;
+        this.description = description;
+        this.email = email;
+        this.name = name;
+        this.author = author;
+    }
 }
 
 export class Site {
@@ -36,14 +37,14 @@ export class Site {
     }
 
     private loadConfig(): Config {
-        let config = new Config();
         let contents = fs.readFileSync(path.join(this.rootDir, "_config.yml"), 'utf8');
         let configYML = YAML.parse(contents);
-        config.name = configYML.name;
-        config.author = configYML.author;
-        config.description = configYML.description;
-        config.email = configYML.email;
-        config.title = configYML.title;
+        let config = new Config(
+            configYML.title,
+            configYML.description,
+            configYML.email,
+            configYML.name,
+            configYML.author);
         return config;
     }
 
@@ -51,10 +52,8 @@ export class Site {
         let pages = new Array<string>();
         let files = fs.readdirSync(this.rootDir);
         files.forEach((value, index) => {
-            if (value.toLowerCase() !== "readme.md" && (value.endsWith(".md") || value.endsWith(".markdown"))) {
-                let ph = path.join(this.rootDir, value);
-                pages.push(ph);
-            }
+            let ph = path.join(this.rootDir, value);
+            pages.push(ph);
         });
         return pages;
     }
