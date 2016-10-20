@@ -1,15 +1,16 @@
 import { ipcRenderer } from 'electron';
 import { Site } from './modules/jekyll';
+import * as $ from 'jquery';
 
 ipcRenderer.on('got-dirs', (event, args: Site) => {
     let pages: string;
     let posts: string;
-    posts = "<h1>Posts:</h1><ul>"
+    let $header = $("<h1>", { text: "Posts" });
+    let $list = $("<ul></ul>");
     args.posts.forEach(value => {
-        posts += "<li>" + value.title + " (" + value.date + ")</li>"
+        $list.append($("<li></li>").text(value.title));
     });
-    posts += "</ul>";
-    document.getElementById("dirs").innerHTML = posts;
+    $("#dirs").append($header).append($list);
 
     pages = "<h1>Pages:</h1><ul>"
     args.pages.forEach(value => {

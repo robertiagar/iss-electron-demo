@@ -12,7 +12,9 @@
   "author": "Robert Iagar",
   "license": "ISC",
   "devDependencies": {
+    "bootstrap": "^3.3.7",
     "electron": "^1.4.3",
+    "jquery": "^3.1.1",
     "typescript": "^2.0.3",
     "yamljs": "^0.2.8"
   }

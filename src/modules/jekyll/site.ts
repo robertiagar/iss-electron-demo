@@ -30,6 +30,13 @@ export class Config {
     email: string
     name: string
     author: string
+    constructor(title: string, description: string, email: string, name: string, author: string) {
+        this.title = title;
+        this.description = description;
+        this.email = email;
+        this.name = name;
+        this.author = author;
+    }
 }
 
 export class Site {
@@ -50,32 +57,30 @@ export class Site {
     }
 
     private loadConfig(): Config {
-        let config = new Config();
         let contents = fs.readFileSync(path.join(this.rootDir, "_config.yml"), 'utf8');
         let configYML = YAML.parse(contents);
-        config.name = configYML.name;
-        config.author = configYML.author;
-        config.description = configYML.description;
-        config.email = configYML.email;
-        config.title = configYML.title;
+        let config = new Config(
+            configYML.title,
+            configYML.description,
+            configYML.email,
+            configYML.name,
+            configYML.author);
         return config;
     }
 
-    private loadPages(): Page[] {
-        let pages = new Array<Page>();
-        let files = fs.readdirSync(this.rootDir);
-        files.forEach(value => {
-            if (value.toLowerCase() !== "readme.md" && (value.endsWith(".md") || value.endsWith(".markdown"))) {
-                let ph = path.join(this.rootDir, value);
-                pages.push(new Page(value.replace(".md", "").replace(".markdown", ""), ph));
-            }
+    private loadPages(): string[] {
+        let pages = new Array<string>();
+        let files = this.getMarkdownFiles(this.rootDir);
+        files.forEach((value, index) => {
+            let ph = path.join(this.rootDir, value);
+            pages.push(ph);
         });
-        
+
         return pages;
     }
 
     private loadPosts(): Post[] {
-        let files = fs.readdirSync(path.join(this.rootDir, _posts));
+        let files = this.getMarkdownFiles(path.join(this.rootDir, _posts));
         return files.reverse().map(value => {
             let ph = path.join(this.rootDir, _posts, value);
             let fileContent = fs.readFileSync(ph, 'utf8');
@@ -86,5 +91,12 @@ export class Site {
             let date = yml.date != undefined ? new Date(yml.date) : new Date(value.substr(0, 10));
             return new Post(ph, date, yml.title);
         });
+    }
+
+    private getMarkdownFiles(path: string): string[] {
+        let files = fs.readdirSync(path);
+        return files.filter(value => {
+            return (value.endsWith(".md") || value.endsWith(".markdown"));
+        })
     }
 }
