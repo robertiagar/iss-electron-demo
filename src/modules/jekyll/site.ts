@@ -50,7 +50,7 @@ export class Site {
 
     private loadPages(): string[] {
         let pages = new Array<string>();
-        let files = fs.readdirSync(this.rootDir);
+        let files = this.getMarkdownFiles(this.rootDir);
         files.forEach((value, index) => {
             let ph = path.join(this.rootDir, value);
             pages.push(ph);
@@ -60,11 +60,18 @@ export class Site {
 
     private loadPosts(): string[] {
         let posts = new Array<string>();
-        let files = fs.readdirSync(path.join(this.rootDir, _posts));
+        let files = this.getMarkdownFiles(path.join(this.rootDir, _posts));
         files.forEach(value => {
             let ph = path.join(this.rootDir, _posts, value);
             posts.push(ph);
         })
         return posts;
+    }
+
+    private getMarkdownFiles(path: string): string[] {
+        let files = fs.readdirSync(path);
+        return files.filter(value => {
+            return (value.endsWith(".md") || value.endsWith(".markdown"));
+        })
     }
 }
