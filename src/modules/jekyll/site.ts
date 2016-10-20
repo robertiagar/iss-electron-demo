@@ -68,15 +68,13 @@ export class Site {
         return config;
     }
 
-    private loadPages(): string[] {
+    private loadPages(): Page[] {
         let pages = new Array<string>();
         let files = this.getMarkdownFiles(this.rootDir);
-        files.forEach((value, index) => {
+        return files.map(value => {
             let ph = path.join(this.rootDir, value);
-            pages.push(ph);
+            return new Page(value.replace(".md", ""), ph);
         });
-
-        return pages;
     }
 
     private loadPosts(): Post[] {
