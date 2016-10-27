@@ -88,6 +88,8 @@ export class Site {
             let yml = YAML.parse(yaml);
             let date = yml.date != undefined ? new Date(yml.date) : new Date(value.substr(0, 10));
             return new Post(ph, date, yml.title);
+        }).filter(value => {
+            return value.title != null;
         });
     }
 
@@ -96,5 +98,10 @@ export class Site {
         return files.filter(value => {
             return (value.endsWith(".md") || value.endsWith(".markdown"));
         })
+    }
+
+    public getFileContent(path: string): string {
+        let file = fs.readFileSync(path, 'utf8');
+        return file;
     }
 }

@@ -1,14 +1,33 @@
 <html>
-    <head>
-        <title>Electron Jekyll</title>
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css"/>
-    </head>
-    <body>
-        It works!!
-        <div id="dirs"></div>
-        <script>
-            window.$ = window.jquery = require('jquery');
-            require('./render.js');
-        </script>
-    </body>
+
+<head>
+    <title>Electron Jekyll</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <h1>Posts</h1>
+                <div class="list-group" id="posts">
+                </div>
+                <h1>Pages</h1>
+                <div class="list-group" id="pages">
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <textarea class="form-control" id="text"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.$ = window.jquery = require('jquery');
+        require('./render.js');
+    </script>
+</body>
+
 </html>

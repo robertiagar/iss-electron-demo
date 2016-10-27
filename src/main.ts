@@ -2,6 +2,7 @@ import { app, BrowserWindow, dialog, ipcMain, Menu } from "electron";
 import { Site } from "./modules/jekyll";
 
 let window: Electron.BrowserWindow;
+let site: Site;
 
 let getSite = root => {
     return new Site(root);
@@ -19,14 +20,14 @@ app.on('ready', _ => {
             submenu: [
                 {
                     label: "Open",
-                    accelerator: "Ctrl+O",
+                    accelerator: "CommandOrControl+O",
                     click: () => {
                         let filenames = dialog.showOpenDialog({
                             properties: ['openDirectory']
                         });
                         if (filenames && filenames[0]) {
-                            let dirs = getSite(filenames[0]);
-                            window.webContents.send('got-dirs', dirs);
+                            site = getSite(filenames[0]);
+                            window.webContents.send('got-site', site);
                         }
                     }
                 },
@@ -35,7 +36,7 @@ app.on('ready', _ => {
                     click: () => {
                         window.webContents.send('refresh');
                     },
-                    accelerator: "Ctrl+R"
+                    accelerator: "CommandOrControl+R"
                 },
                 {
                     label: "Exit",
@@ -55,4 +56,10 @@ app.on('ready', _ => {
     window.on('close', _ => {
         window = null;
     })
+});
+
+ipcMain.on("get-file-content", (event, path) => {
+    let content = site.getFileContent(path);
+
+    event.sender.send("got-file-content", content);
 });

@@ -1,21 +1,21 @@
 {
-  "name": "jekyll-electron",
-  "version": "0.0.1",
-  "description": "A jekyll blog editor built in Electron",
-  "main": "src/main.js",
-  "scripts": {
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "electron src/main.js"
-  },
-  "keywords": [],
-  "author": "Robert Iagar",
-  "license": "ISC",
-  "devDependencies": {
-    "bootstrap": "^3.3.7",
-    "electron": "^1.4.3",
-    "jquery": "^3.1.1",
-    "typescript": "^2.0.3",
-    "yamljs": "^0.2.8"
-  }
+    "name": "jekyll-electron",
+    "version": "0.0.1",
+    "description": "A jekyll blog editor built in Electron",
+    "main": "src/main.js",
+    "scripts": {
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "electron src/main.js"
+    },
+    "keywords": [],
+    "author": "Robert Iagar",
+    "license": "ISC",
+    "devDependencies": {
+        "bootstrap": "^3.3.7",
+        "electron": "^1.4.3",
+        "jquery": "^3.1.1",
+        "typescript": "^2.0.3",
+        "yamljs": "^0.2.8"
+    }
 }
